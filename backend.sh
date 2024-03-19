@@ -1,4 +1,4 @@
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>>/tmp/expense.log // This will help in excluding ambiguous output
 dnf module enable nodejs:20 -y
 
 dnf install nodejs -y
