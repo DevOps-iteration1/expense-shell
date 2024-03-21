@@ -7,11 +7,11 @@ dnf module disable nodejs -y &>>/tmp/expense.log # This will help in excluding a
 echo $?
 
 Print_Task_Heading "Enable NodeJS module for V20"
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>>/tmp/expense.log
 echo $?
 
 Print_Task_Heading "Install NodeJS"
-dnf install nodejs -y
+dnf install nodejs -y &>>/tmp/expense.log
 echo $?
 
 Print_Task_Heading "Adding Application User"
@@ -19,15 +19,15 @@ useradd expense &>> /tmp/expense.log
 echo $?
 
 Print_Task_Heading "Copy Backend Service File"
-cp backend.service /etc/systemd/system/backend.service
+cp backend.service /etc/systemd/system/backend.service&>>/tmp/expense.log
 echo $?
 
-rm -rf /app
+rm -rf /app &>>/tmp/expense.log
 
 mkdir /app
 curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
 cd /app
-unzip /tmp/backend.zip
+unzip /tmp/backend.zip &>>/tmp/expense.log
 
 cd /app
 npm install
@@ -38,4 +38,4 @@ systemctl enable backend
 systemctl start backend
 
 dnf install mysql -y
-mysql -h 172.31.46.19 -uroot -p"mysql_root_password" < /app/schema/backend.sql
+mysql -h 172.31.46.19 -uroot -p${mysql_root_password} < /app/schema/backend.sql
