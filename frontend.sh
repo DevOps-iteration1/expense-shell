@@ -1,3 +1,5 @@
+source common.sh
+Print_Task_Heading "Installing Nginx"
 dnf install nginx -y
 
 systemctl enable nginx
