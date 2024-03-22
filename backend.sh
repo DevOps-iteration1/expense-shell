@@ -1,6 +1,8 @@
 source common.sh
 
 mysql_root_password=$1
+app_dir=/app
+component=backend
 
 # If password is not provided then we will exit
 if [ -z "${mysql_root_password}" ]; then
@@ -28,15 +30,10 @@ fi
 Check_Status $?
 
 Print_Task_Heading "Copy Backend Service File"
-cp backend.service /etc/systemd/system/backend.service&>>$LOG
+cp ${component}.service /etc/systemd/system/${component}.service&>>$LOG
 Check_Status $?
 
-rm -rf /app &>>$LOG
-
-mkdir /app
-curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
-cd /app
-unzip /tmp/backend.zip &>>$LOG
+App_PreReq
 
 cd /app
 npm install
