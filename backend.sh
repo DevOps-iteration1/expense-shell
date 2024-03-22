@@ -21,7 +21,10 @@ dnf install nodejs -y &>>$LOG
 Check_Status $?
 
 Print_Task_Heading "Adding Application User"
-useradd expense &>> $LOG
+id expense &>> LOG
+if [ $? -ne 0 ]; then
+  useradd expense &>> $LOG
+fi
 Check_Status $?
 
 Print_Task_Heading "Copy Backend Service File"
