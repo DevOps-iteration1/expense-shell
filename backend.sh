@@ -9,31 +9,31 @@ if [ -z "${mysql_root_password}" ]; then
 fi
 
 Print_Task_Heading "Disable default NodeJS Version Module"
-dnf module disable nodejs -y &>>/tmp/expense.log # This will help in excluding ambiguous output
+dnf module disable nodejs -y &>>$LOG # This will help in excluding ambiguous output
 Check_Status $?
 
 Print_Task_Heading "Enable NodeJS module for V20"
-dnf module enable nodejs:20 -y &>>/tmp/expense.log
+dnf module enable nodejs:20 -y &>>$LOG
 Check_Status $?
 
 Print_Task_Heading "Install NodeJS"
-dnf install nodejs -y &>>/tmp/expense.log
+dnf install nodejs -y &>>$LOG
 Check_Status $?
 
 Print_Task_Heading "Adding Application User"
-useradd expense &>> /tmp/expense.log
+useradd expense &>> $LOG
 Check_Status $?
 
 Print_Task_Heading "Copy Backend Service File"
-cp backend.service /etc/systemd/system/backend.service&>>/tmp/expense.log
+cp backend.service /etc/systemd/system/backend.service&>>$LOG
 Check_Status $?
 
-rm -rf /app &>>/tmp/expense.log
+rm -rf /app &>>$LOG
 
 mkdir /app
 curl -o /tmp/backend.zip https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
 cd /app
-unzip /tmp/backend.zip &>>/tmp/expense.log
+unzip /tmp/backend.zip &>>$LOG
 
 cd /app
 npm install
