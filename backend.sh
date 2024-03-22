@@ -10,23 +10,23 @@ fi
 
 Print_Task_Heading "Disable default NodeJS Version Module"
 dnf module disable nodejs -y &>>/tmp/expense.log # This will help in excluding ambiguous output
-echo $?
+Check_Status $?
 
 Print_Task_Heading "Enable NodeJS module for V20"
 dnf module enable nodejs:20 -y &>>/tmp/expense.log
-echo $?
+Check_Status $?
 
 Print_Task_Heading "Install NodeJS"
 dnf install nodejs -y &>>/tmp/expense.log
-echo $?
+Check_Status $?
 
 Print_Task_Heading "Adding Application User"
 useradd expense &>> /tmp/expense.log
-echo $?
+Check_Status $?
 
 Print_Task_Heading "Copy Backend Service File"
 cp backend.service /etc/systemd/system/backend.service&>>/tmp/expense.log
-echo $?
+Check_Status $?
 
 rm -rf /app &>>/tmp/expense.log
 
