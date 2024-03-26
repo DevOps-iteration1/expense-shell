@@ -30,5 +30,4 @@ App_PreReq(){
   cd /app &>>$LOG
   unzip /tmp/${component}.zip &>>$LOG
   Check_Status $?
-
 }
